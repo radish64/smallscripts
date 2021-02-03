@@ -1,5 +1,3 @@
-#MODIFIED VERSION OF https://github.com/pstadler/ticker.sh 
-
 #!/usr/bin/env bash
 set -e
 
