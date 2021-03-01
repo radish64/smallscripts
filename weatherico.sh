@@ -1,26 +1,17 @@
-cloud=$(curl -Ss 'https://wttr.in?0&T&Q' | cut -c 16- | head -2 | xargs echo | grep cloud | wc -l)
-sun=$(curl -Ss 'https://wttr.in?0&T&Q' | cut -c 16- | head -2 | xargs echo | grep "clear" | wc -l)
-snow=$(curl -Ss 'https://wttr.in?0&T&Q' | cut -c 16- | head -2 | xargs echo | grep snow | wc -l)
-rain=$(curl -Ss 'https://wttr.in?0&T&Q' | cut -c 16- | head -2 | xargs echo | grep rain | wc -l)
-storm=$(curl -Ss 'https://wttr.in?0&T&Q' | cut -c 16- | head -2 | xargs echo | grep storm | wc -l)
-wind=$(curl -Ss 'https://wttr.in?0&T&Q' | cut -c 16- | head -2 | xargs echo | grep wind | wc -l)
+#!/bin/bash
 result=$(curl -Ss 'https://wttr.in?0&T&Q' | cut -c 16- | head -2 | xargs echo)
-case $cloud in
-1)icon=" "
-esac
-case $sun in 
-1)icon=" "
-esac
-case $snow in
-1)icon=" "
-esac
-case $rain in
-1)icon=" "
-esac
-case $storm in
-1)icon=" "
-esac
-case $wind in
-1)icon=" "
-esac
+cloud=$(echo "$result" | grep cloud | wc -l)
+sun=$(echo "$result" | grep "clear" | wc -l)
+snow=$(echo "$result" | grep snow | wc -l)
+rain=$(echo "$result" | grep rain | wc -l)
+storm=$(echo "$result" | grep storm | wc -l)
+wind=$(echo "$result" | grep wind | wc -l)
+dead=$(echo "$result" | grep "°" | wc -l)
+[[ "$dead" = 0 ]] && exit 1
+[[ "$cloud" = 1 ]] && icon=" "
+[[ "$sun" = 1 ]] && icon=" "
+[[ "$snow" = 1 ]] && icon=" "
+[[ "$rain" = 1 ]] && icon="  "
+[[ "$storm" = 1 ]] && icon="  "
+[[ "$wind" = 1 ]] && icon=" "
 echo "$icon $result"
