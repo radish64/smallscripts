@@ -1,0 +1,22 @@
+#!/bin/sh
+#uses rofi, sxiv, and xwallpaper to choose wallpaper
+image=$(ls ~/pix/wallpaper | grep -E ".png|.jpg" | rofi -dmenu -p Wallpaper)
+if [ "$image" = "" ]; then exit 1; fi
+sxiv ~/pix/wallpaper/"$image" & x=`ps | grep sxiv | awk '{print $1}'` ;
+sure=$(echo 'yes
+no' | rofi -location 2 -dmenu -p 'Are you sure?' -l 2) ; kill $x
+case $sure in
+	yes)
+fill=$(echo 'center
+focus
+maximize
+stretch
+tile
+zoom' | rofi -dmenu -p Fill -l 6)
+if [ "$fill" = "" ]; then exit 1; fi
+echo xwallpaper --$fill ~/pix/wallpaper/"$image" > ~/.config/wallpaper.sh
+xwallpaper --$fill ~/pix/wallpaper/"$image"
+;;
+	no)
+$0
+esac
