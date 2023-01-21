@@ -1,0 +1,5 @@
+#!/bin/sh
+devs=$(lsblk -lp | grep -E "/dev/sd[b-z][0-9]|/dev/mmcblk")
+x=$(echo "$devs" | wc -l)
+disk=$(echo "$devs" | rofi -dmenu -p Disk -l $x | awk '{print $1}')
+sudo mount "$disk" ~/mnt
