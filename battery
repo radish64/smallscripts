@@ -1,7 +1,11 @@
 #!/bin/sh
 result=$(acpi | cut -d '%' -f 1 | rev | cut -d ',' -f 1 | rev | sed s/\ // | awk '{SUM+=$1}END{print SUM}')
 total=$(acpi | wc -l)
-percent=$(echo $result $total | awk '{print int($1/$2)}')
+if [ $total -gt 0 ];
+then
+	percent=$(echo $result $total | awk '{print int($1/$2)}');
+else
+	percent=0
 case $(acpi | grep Charging | wc -l) in
 0)
 	if [ $percent -gt 75 ];
@@ -21,4 +25,5 @@ case $(acpi | grep Charging | wc -l) in
 	icon="";
 	;;
 esac
+fi
 echo $icon $percent | awk '{print $1, $2"%"}'
