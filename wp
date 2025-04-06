@@ -15,7 +15,9 @@ tile
 zoom' | rofi -dmenu -p Fill -l 6)
 if [ "$fill" = "" ]; then exit 1; fi
 echo xwallpaper --$fill ~/pix/wallpaper/"$image" > ~/.config/wallpaper.sh
-xwallpaper --$fill ~/pix/wallpaper/"$image"
+echo swaybg --mode fill --image ~/pix/wallpaper/"$image" >> ~/.config/wallpaper.sh
+pkill swaybg
+~/.config/wallpaper.sh
 ;;
 no)
 $0
